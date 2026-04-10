@@ -1,50 +1,42 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export default function About() {
+  const ref = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 80%", "end 20%"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
+
   return (
-    <section id="about" className="container py-16">
-      <motion.h2
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className="text-3xl font-bold mb-6"
-      >
-        Why Overhead Door Services Matter
-      </motion.h2>
+    <section id="about" ref={ref} className="container py-20">
+      <motion.div style={{ opacity, scale }}>
+        <h2 className="text-3xl font-bold mb-6">
+          Why Overhead Door Services Matter
+        </h2>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-gray-600 mb-4"
-      >
-        Overhead garage doors are essential for both residential and commercial
-        properties. They provide security, energy efficiency, and operational
-        convenience in everyday use.
-      </motion.p>
+        <p className="text-gray-600 mb-4">
+          Overhead garage doors are essential for both residential and commercial
+          properties. They provide security, energy efficiency, and operational
+          convenience.
+        </p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="text-gray-600 mb-4"
-      >
-        A properly installed and maintained door protects valuable assets,
-        improves workflow in commercial environments, and enhances safety for
-        families and employees.
-      </motion.p>
+        <p className="text-gray-600 mb-4">
+          Proper installation and maintenance ensure safety, reduce downtime,
+          and protect valuable assets in any environment.
+        </p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="text-gray-600"
-      >
-        At ShelterPro Overhead Doors, we ensure every system operates smoothly,
-        safely, and efficiently for long-term reliability.
-      </motion.p>
+        <p className="text-gray-600">
+          ShelterPro Overhead Doors delivers long-term reliability through
+          expert service and precision work.
+        </p>
+      </motion.div>
     </section>
   );
 }
